@@ -8,17 +8,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "deep-equal": "^2.0.5",
     "is-hotkey": "^0.2.0",
-    "normalize.css": "^8.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-is": "^18.0.0",
     "slate": "^0.76.0",
     "slate-history": "^0.66.0",
-    "slate-react": "^0.76.0"
+    "slate-react": "^0.76.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^1.0.7",
-    "less": "^4.1.2",
     "vite": "^2.9.0",
     "zx": "^6.0.7"
   }

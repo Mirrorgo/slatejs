@@ -1,4 +1,5 @@
 // Define our own custom set of helpers.
+import isHotkey from "is-hotkey";
 import { Editor, Text, Transforms } from "slate";
 import { elementType } from "./App.constants";
 const CustomEditor = {
@@ -12,13 +13,7 @@ const CustomEditor = {
     return !!match;
   },
   /* -----block----- */
-  isQuoteBlockActive(editor) {
-    //TODO清除魔术字符串
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === elementType["block-quote"],
-    });
-    return !!match;
-  },
+
   isCodeBlockActive(editor) {
     const [match] = Editor.nodes(editor, {
       match: (n) => n.type === elementType["code-block"],
@@ -26,7 +21,15 @@ const CustomEditor = {
 
     return !!match;
   },
+  isQuoteBlockActive(editor) {
+    //TODO清除魔术字符串
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.type === elementType["quote-block"],
+    });
+    return !!match;
+  },
   /* --------------toggle-------------- */
+  /* -----Leaf------ */
   toggleBoldMark(editor) {
     const isActive = CustomEditor.isBoldMarkActive(editor);
     Transforms.setNodes(
@@ -35,12 +38,20 @@ const CustomEditor = {
       { match: (n) => Text.isText(n), split: true }
     );
   },
-
+  /* -----block----- */
   toggleCodeBlock(editor) {
     const isActive = CustomEditor.isCodeBlockActive(editor);
     Transforms.setNodes(
       editor,
       { type: isActive ? null : elementType["code-block"] },
+      { match: (n) => Editor.isBlock(editor, n) }
+    );
+  },
+  toggleQuoteBlock(editor) {
+    const isActive = CustomEditor.isQuoteBlockActive(editor);
+    Transforms.setNodes(
+      editor,
+      { type: isActive ? null : elementType["quote-block"] },
       { match: (n) => Editor.isBlock(editor, n) }
     );
   },
@@ -53,6 +64,9 @@ const withShortcuts = (editor) => {
 
 /* ---------各种键鼠操作---------- */
 const handleKeyDown = (event, editor) => {
+  // if(isHotkey('mod+b',event)){
+
+  // }
   if (!event.ctrlKey) {
     return;
   }
