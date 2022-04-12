@@ -52,6 +52,9 @@ export default function useEditorConfig(editor) {
           break;
         }
         /* NOTE:保留快捷键 */
+        case "a": {
+          break;
+        }
         case "c": {
           break;
         }
