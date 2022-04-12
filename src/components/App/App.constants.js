@@ -100,4 +100,20 @@ const DROPDOWN_DATA = {
   ],
 };
 const STYLE_BUTTON = [...Object.values(leafType)]; //TODO：完善成类似DROPDOWN_DATA
-export { INITIAL_CONTENT, STYLE_BUTTON, elementType, leafType, DROPDOWN_DATA };
+const SHORTCUTS = {
+  ">": elementType["quote-block"],
+  "#": elementType.h1,
+  "##": elementType.h2,
+  "###": elementType.h3,
+  "####": elementType.h4,
+  "#####": elementType.h5,
+  "######": elementType.h6,
+};
+export {
+  INITIAL_CONTENT,
+  STYLE_BUTTON,
+  elementType,
+  leafType,
+  DROPDOWN_DATA,
+  SHORTCUTS,
+};

@@ -13,6 +13,7 @@ const CustomEditor = {
   },
   /* -----block----- */
   isCodeBlockActive(editor) {
+    //TODO：理解这个nodes的使用方式
     const [match] = Editor.nodes(editor, {
       match: (n) => n.type === elementType["code-block"],
     });
@@ -56,4 +57,18 @@ const CustomEditor = {
   },
 };
 
-export { CustomEditor };
+const withShortcuts = (editor) => {
+  //TODO: 👇是做什么的?猜测用于保留方法修改前的部分内容
+  const { deleteBackward, insertText } = editor;
+  editor.insertText = (text) => {
+    const { selection } = editor;
+    // if (text === " " && selection && Range.isCollapsed(selection)) {
+    if (text === " ") {
+      console.log("insert", selection);
+    }
+    insertText(text); //保证原内容正常插入
+  };
+  return editor;
+};
+
+export { CustomEditor, withShortcuts };
