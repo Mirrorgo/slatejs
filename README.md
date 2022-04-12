@@ -8,3 +8,5 @@ pnpm install -D postcss-import
 TODO:每次渲染的时候出现的attributes到底是什么,打印一下
 
 slate的changelog很重要
+
+效果展示:https://mirrorgo.github.io/slatejs/
