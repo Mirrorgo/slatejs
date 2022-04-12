@@ -1,10 +1,8 @@
 import { memo, useState } from "react";
 import { useSelected } from "slate-react";
 import styled from "styled-components";
-import { dropdownData } from "./App.constants";
+import { DROPDOWN_DATA, leafType, STYLE_BUTTON } from "./App.constants";
 import { CustomEditor } from "./App.helper";
-import useSelection from "./hooks/useSelection.hook";
-
 export { CodeElement, DefaultElement, Toolbar };
 
 /*  */
@@ -13,7 +11,7 @@ const cssVariables = {
 };
 /*  */
 const Toolbar = memo(({ editor }) => {
-  const [data, setData] = useState(dropdownData);
+  const [data, setData] = useState(DROPDOWN_DATA);
   // const [selection, setSelection] = useSelection(editor);
   return (
     <StyleToolBar>
@@ -21,14 +19,26 @@ const Toolbar = memo(({ editor }) => {
       {/* immer+ 状态提升 */}
       {/* TODO:这里的onchange暂时没有使用 */}
       <DropdownList data={data} onChange={(e) => setData(e.value)} />
-      <button
-        onMouseDown={(e) => {
-          e.preventDefault();
-          CustomEditor.toggleBoldMark(editor);
-        }}
-      >
-        bold
-      </button>
+      {STYLE_BUTTON.map((style) => {
+        //一堆leaf的按钮
+        return (
+          <div key={style}>
+            <button
+              //TODO:active的时候有深色的背景
+              // className={`${
+              //   CustomEditor.isStyleActive(editor, style) ? "active" : ""
+              // }`}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                CustomEditor.toggleStyle(editor, style); //cur类似leafType.bold
+              }}
+            >
+              {style}
+              <div className="tooltip">ctrl+i</div>
+            </button>
+          </div>
+        );
+      })}
       <button
         onMouseDown={(e) => {
           e.preventDefault();
@@ -40,8 +50,9 @@ const Toolbar = memo(({ editor }) => {
       <button
         onMouseDown={(e) => {
           // console.log(selection);
-          console.log(editor.selection);
+          // console.log(editor.selection);
           console.log("test");
+          console.log(test);
         }}
       >
         test
@@ -93,10 +104,11 @@ const DropdownList = (props) => {
       {/* <div
         className={`mask ${showDropdownList ? "show" : ""}`}
         onMouseDown={(e) => {
-          //FIXME
+          //FIXME: 没有办法模拟点击事件!!!
           e.preventDefault();
           setShowDropdownList((i) => !i);
           console.log("mask");
+          console.log(e.clientX, e.clientY);
         }}
       ></div> */}
     </div>
@@ -108,16 +120,33 @@ const StyleToolBar = styled.div`
   display: flex;
   justify-content: center;
   button {
+    height: 100%;
+    position: relative; //为了tooltip的定位
     border-radius: 4px;
     border: ${cssVariables.blue} 1px solid;
     margin: 0 3px;
     padding: 3px 8px;
-  }
-  button {
     color: ${cssVariables.blue};
     background-color: inherit;
+    > .tooltip {
+      display: block;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: ease 0.3s;
+      z-index: 10; //显示在上层,防止遮盖
+    }
+    &.active {
+      background-color: #e8e8e8;
+    }
     &:hover {
       background-color: #f5f5f5;
+      > .tooltip {
+        opacity: 1;
+      }
     }
   }
   .dropdown {

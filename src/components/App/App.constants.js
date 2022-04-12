@@ -15,7 +15,14 @@ const elementType = {
   paragraph: "paragraph", //普通的内容都是paragraph吗
 };
 
-const initialContent = [
+const leafType = {
+  bold: "bold",
+  code: "code",
+  italic: "italic",
+  underline: "underline",
+};
+
+const INITIAL_CONTENT = [
   {
     type: elementType["h1"],
     children: [{ text: "Heading 1" }],
@@ -52,7 +59,7 @@ const initialContent = [
   },
 ];
 
-const dropdownData = {
+const DROPDOWN_DATA = {
   selected: 0,
   list: [
     {
@@ -92,4 +99,5 @@ const dropdownData = {
     },
   ],
 };
-export { initialContent, elementType, dropdownData };
+const STYLE_BUTTON = [...Object.values(leafType)]; //TODO：完善成类似DROPDOWN_DATA
+export { INITIAL_CONTENT, STYLE_BUTTON, elementType, leafType, DROPDOWN_DATA };

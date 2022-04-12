@@ -1,28 +1,68 @@
-import isHotkey from "is-hotkey";
 import { useCallback } from "react";
-import { DefaultElement } from "slate-react";
 import styled from "styled-components";
-import { elementType } from "../App.constants";
+import { elementType, leafType } from "../App.constants";
 import { CodeElement } from "../AppChild";
+import isHotkey from "is-hotkey";
+import { CustomEditor } from "../App.helper";
 export default function useEditorConfig(editor) {
-  /* const onKeyDown = useCallback(
-    (e) => {
-      console.log("onkeydown");
-      // if (isHotkey("mod+b", e)) {
-      // if (isHotkey("mod+b")(e)) {
-      // if (isHotkey("Control+S", e)) {
-      if (isHotkey("Control+S")(e)) {
-        console.log("mod+b");
-      }
-    },
-    [editor]
-  ); */
-  /* new */
   const onKeyDown = useCallback(
-    (event) => {
-      if (isHotkey("mod+b", event)) {
-        console.log("mod+b");
+    //NOTE:这个每次修改后,需要重写刷新才能更新事件,hmr无效
+    (e) => {
+      if (isHotkey("mod+b", e)) {
+        CustomEditor.toggleStyle(editor, leafType.bold);
         return;
+      }
+      if (isHotkey("mod+i", e)) {
+        CustomEditor.toggleStyle(editor, leafType.italic);
+        return;
+      }
+      if (isHotkey("mod+u", e)) {
+        CustomEditor.toggleStyle(editor, leafType.underline);
+        return;
+      }
+      // NOTE:isHotkey对于👇无法prevent浏览器的ctrl+e
+      /*  if (isHotkey("mod+e", event)) {
+        CustomEditor.toggleStyle(editor, leafType.code);
+        return;
+      } */
+      if (!e.ctrlKey) {
+        return;
+      }
+      // 只有下面的写法能够prevent浏览器的ctrl+e
+      switch (e.key) {
+        case "e": {
+          e.preventDefault();
+          CustomEditor.toggleStyle(editor, leafType.code);
+          break;
+        }
+        case "`": {
+          e.preventDefault();
+          CustomEditor.toggleCodeBlock(editor);
+          break;
+        }
+        //NOTE注意大小写
+        case "U": {
+          e.preventDefault();
+          CustomEditor.toggleQuoteBlock(editor);
+          break;
+        }
+        case "W": {
+          e.preventDefault();
+          CustomEditor.toggleQuoteBlock(editor);
+          break;
+        }
+        /* NOTE:保留快捷键 */
+        case "c": {
+          break;
+        }
+        case "v": {
+          break;
+        }
+        case "z": {
+          break;
+        }
+        default:
+          e.preventDefault(); //清除所有第三方ctrl的快捷键
       }
     },
     [editor]
@@ -33,7 +73,7 @@ export default function useEditorConfig(editor) {
 //三行能写完的直接在这写,更多的卸载appChild中
 const renderElement = (props) => {
   const { element, children, attributes } = props;
-  console.log(props, "renderElement()");
+  console.log("renderElement()");
   switch (element.type) {
     case elementType.paragraph:
       return <p {...attributes}>{children}</p>;
@@ -66,18 +106,19 @@ const renderElement = (props) => {
 //TODO:why选中就会重复渲染?所在element有几段就会渲染几次
 function renderLeaf(props) {
   const { attributes, children, leaf, text } = props;
-  console.log(props, "renderLeaf()");
+  console.log("renderLeaf()");
+  //由于这个是叠加的,所以得等到最后才能return
   let el = <>{children}</>;
-  if (leaf.bold) {
-    return <Bold {...attributes}>{el}</Bold>;
+  if (leaf[leafType.bold]) {
+    el = <Bold>{el}</Bold>;
   }
-  if (leaf.code) {
+  if (leaf[leafType.code]) {
     el = <code>{el}</code>;
   }
-  if (leaf.italic) {
+  if (leaf[leafType.italic]) {
     el = <em>{el}</em>;
   }
-  if (leaf.underline) {
+  if (leaf[leafType.underline]) {
     el = <u>{el}</u>;
   }
   return <span {...attributes}>{el}</span>;
@@ -86,3 +127,27 @@ function renderLeaf(props) {
 const Bold = styled.span`
   font-weight: bold;
 `;
+
+/* ------无效代码------ */
+
+const handleKeyDown = (event, editor) => {
+  // if(isHotkey('mod+b',event)){
+
+  // }
+  if (!event.ctrlKey) {
+    return;
+  }
+  // 使用我们新编写的命令来替代 onKeyDown 中的逻辑
+  switch (event.key) {
+    case "`": {
+      event.preventDefault();
+      CustomEditor.toggleCodeBlock(editor);
+      break;
+    }
+    case "b": {
+      event.preventDefault();
+      CustomEditor.toggleBoldMark(editor);
+      break;
+    }
+  }
+};

@@ -1,24 +1,21 @@
 // Define our own custom set of helpers.
-import isHotkey from "is-hotkey";
 import { Editor, Text, Transforms } from "slate";
 import { elementType } from "./App.constants";
 const CustomEditor = {
   /* -----Leaf------ */
-  isBoldMarkActive(editor) {
+  //STAR 处理所有leaf
+  isStyleActive(editor, style) {
     const [match] = Editor.nodes(editor, {
-      match: (n) => n.bold === true,
+      match: (n) => n[style] === true,
       universal: true, // 这里的true or false是匹配方式的区别
     });
-
     return !!match;
   },
   /* -----block----- */
-
   isCodeBlockActive(editor) {
     const [match] = Editor.nodes(editor, {
       match: (n) => n.type === elementType["code-block"],
     });
-
     return !!match;
   },
   isQuoteBlockActive(editor) {
@@ -30,11 +27,13 @@ const CustomEditor = {
   },
   /* --------------toggle-------------- */
   /* -----Leaf------ */
-  toggleBoldMark(editor) {
-    const isActive = CustomEditor.isBoldMarkActive(editor);
+  //STAR
+  toggleStyle(editor, style) {
+    console.log(style, "style");
+    const isActive = CustomEditor.isStyleActive(editor, style);
     Transforms.setNodes(
       editor,
-      { bold: isActive ? null : true },
+      { [style]: isActive ? false : true }, //注意这里的方括号
       { match: (n) => Text.isText(n), split: true }
     );
   },
@@ -57,32 +56,4 @@ const CustomEditor = {
   },
 };
 
-const withShortcuts = (editor) => {
-  const {} = editor;
-  return editor;
-};
-
-/* ---------各种键鼠操作---------- */
-const handleKeyDown = (event, editor) => {
-  // if(isHotkey('mod+b',event)){
-
-  // }
-  if (!event.ctrlKey) {
-    return;
-  }
-  // 使用我们新编写的命令来替代 onKeyDown 中的逻辑
-  switch (event.key) {
-    case "`": {
-      event.preventDefault();
-      CustomEditor.toggleCodeBlock(editor);
-      break;
-    }
-    case "b": {
-      event.preventDefault();
-      CustomEditor.toggleBoldMark(editor);
-      break;
-    }
-  }
-};
-//TODO: 如何在with中使用onkeydown
-export { CustomEditor, withShortcuts, handleKeyDown };
+export { CustomEditor };
