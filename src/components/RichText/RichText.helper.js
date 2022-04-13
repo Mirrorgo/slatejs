@@ -1,5 +1,5 @@
 // Define our own custom set of helpers.
-import { Editor, Range, Text, Transforms } from "slate";
+import { Editor, Text, Transforms } from "slate";
 import { elementType } from "./RickText.constants";
 const CustomEditor = {
   /* -----Leaf------ */
