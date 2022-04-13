@@ -1,11 +1,10 @@
-export default RichText;
 import { memo, useCallback, useMemo, useState } from "react";
 import { createEditor, Editor } from "slate";
 import { withHistory } from "slate-history";
 import { Editable, Slate, withReact } from "slate-react";
 import { INITIAL_CONTENT } from "./RickText.constants";
 import { withShortcuts } from "./RichText.plugin";
-import { Toolbar } from "./components/ToolBar";
+import Toolbar from "./components/ToolBar";
 import useEditorConfig from "./hooks/useEditorConfig.hook";
 function RichText() {
   const editor = useMemo(
@@ -30,3 +29,4 @@ function RichText() {
     </>
   );
 }
+export default RichText;

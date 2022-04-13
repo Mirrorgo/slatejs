@@ -97,6 +97,21 @@ const renderElement = (props) => {
       return <p {...attributes}>{children}</p>;
   }
 };
+const CodeElement = (props) => {
+  return (
+    <pre {...props.attributes}>
+      <code>{props.children}</code>
+    </pre>
+  );
+};
+const Blockquote = styled.blockquote`
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-left: 10px;
+  border-left: 2px solid #dedede;
+  color: #666666;
+`;
+
 //TODO:why选中就会重复渲染?所在element有几段就会渲染几次
 function renderLeaf(props) {
   const { attributes, children, leaf, text } = props;
@@ -118,22 +133,8 @@ function renderLeaf(props) {
   return <span {...attributes}>{el}</span>;
 }
 
-const CodeElement = (props) => {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  );
-};
 const Bold = styled.span`
   font-weight: bold;
-`;
-const Blockquote = styled.blockquote`
-  margin-left: 5px;
-  margin-right: 5px;
-  padding-left: 10px;
-  border-left: 2px solid #dedede;
-  color: #666666;
 `;
 
 /* ------无效代码------ */

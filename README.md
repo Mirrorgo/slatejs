@@ -13,7 +13,6 @@
 ---
 
 
-TODO:每次渲染的时候出现的attributes到底是什么,打印一下
-
+TODO:
 slate的changelog很重要
 

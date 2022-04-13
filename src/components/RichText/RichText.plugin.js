@@ -5,6 +5,7 @@ const withShortcuts = (editor) => {
   const { deleteBackward, insertText } = editor;
   //NOTE:why是text而不是character? 因为有一次输入了多个内容的情况,比如中文输入法的输入和粘贴进来的大段文本
   editor.insertText = (text) => {
+    //TODO：引用类型的样式,有时连续有时不连续
     console.log("text:", text);
     const { selection } = editor;
     if (
@@ -38,7 +39,8 @@ const withShortcuts = (editor) => {
     }
     insertText(text); //保证原内容正常插入,可自由添加使得插入的内容更多
   };
-  //yuque的设计没有做deleteBackward的部分,暂时搁置
+  //TODO:针对引用类型有deleteBackwards
+
   return editor;
 };
 export { withShortcuts };
