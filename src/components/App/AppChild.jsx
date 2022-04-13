@@ -54,7 +54,6 @@ const Toolbar = memo(({ editor }) => {
           // console.log(selection);
           // console.log(editor.selection);
           console.log("test");
-          console.log(test);
         }}
       >
         test
