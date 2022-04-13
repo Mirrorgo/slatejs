@@ -11,24 +11,6 @@ const CustomEditor = {
     });
     return !!match;
   },
-  /* -----block----- */
-  isCodeBlockActive(editor) {
-    //TODO：理解这个nodes的使用方式
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === elementType["code-block"],
-    });
-    return !!match;
-  },
-  isQuoteBlockActive(editor) {
-    //TODO清除魔术字符串
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n.type === elementType["quote-block"],
-    });
-    return !!match;
-  },
-  /* --------------toggle-------------- */
-  /* -----Leaf------ */
-  //STAR
   toggleStyle(editor, style) {
     console.log(style, "style");
     const isActive = CustomEditor.isStyleActive(editor, style);
@@ -39,6 +21,19 @@ const CustomEditor = {
     );
   },
   /* -----block----- */
+  isCodeBlockActive(editor) {
+    //TODO：理解这个nodes的使用方式
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.type === elementType["code-block"],
+    });
+    return !!match;
+  },
+  isQuoteBlockActive(editor) {
+    const [match] = Editor.nodes(editor, {
+      match: (n) => n.type === elementType["quote-block"],
+    });
+    return !!match;
+  },
   toggleCodeBlock(editor) {
     const isActive = CustomEditor.isCodeBlockActive(editor);
     Transforms.setNodes(
