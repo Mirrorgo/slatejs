@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { DROPDOWN_DATA, leafType, STYLE_BUTTON } from "./App.constants";
 import { CustomEditor } from "./App.helper";
 export { CodeElement, DefaultElement, Toolbar };
-
+import { ReactComponent as GithubIcon } from "/src/svg/github.svg";
+import { ReactComponent as YuqueIcon } from "/src/svg/yuque.svg";
 /*  */
 const cssVariables = {
   blue: "#037bff",
@@ -39,6 +40,7 @@ const Toolbar = memo(({ editor }) => {
           </div>
         );
       })}
+      <VerticalLine />
       <button
         onMouseDown={(e) => {
           e.preventDefault();
@@ -57,6 +59,8 @@ const Toolbar = memo(({ editor }) => {
       >
         test
       </button>
+      <Github link="https://github.com/Mirrorgo/slatejs"></Github>
+      <Yuque link=""></Yuque>
     </StyleToolBar>
   );
 });
@@ -119,6 +123,7 @@ const DropdownList = (props) => {
 const StyleToolBar = styled.div`
   display: flex;
   justify-content: center;
+  height: 26px;
   button {
     height: 100%;
     position: relative; //为了tooltip的定位
@@ -195,4 +200,47 @@ const StyleToolBar = styled.div`
       }
     }
   }
+`;
+
+const VerticalLine = () => {
+  return (
+    <div
+      style={{
+        boxSizing: "border-box",
+        borderLeft: "1px solid black",
+        height: "20px",
+        position: "relative",
+        top: "50%",
+        margin: "0 3px 0 4px",
+        transform: "translateY(-50%)",
+      }}
+    ></div>
+  );
+};
+//TODO:抽离出一个通用按钮(文字+svg+a)
+const Github = ({ children, link }) => {
+  return (
+    <div className="github">
+      <A href={link}>
+        {children}
+        <GithubIcon width="25" height="25" />
+      </A>
+    </div>
+  );
+};
+const Yuque = ({ children, link }) => {
+  return (
+    <div className="yuque">
+      <A href={link}>
+        {children}
+        <YuqueIcon width="25" height="25" />
+      </A>
+    </div>
+  );
+};
+
+const A = styled.a`
+  text-decoration: none; /* 去除默认的下划线 */
+  outline: none; /* 去除旧版浏览器的点击后的外虚线框 */
+  color: inherit; /* 去除默认的颜色和点击后变化的颜色 */
 `;

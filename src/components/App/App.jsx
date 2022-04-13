@@ -19,6 +19,7 @@ function App() {
       {console.log("render app")}
       <Slate editor={editor} value={value} onChange={(opt) => setValue(opt)}>
         <Toolbar editor={editor} />
+        <hr />
         <Editable
           renderElement={renderElement}
           renderLeaf={renderLeaf}
