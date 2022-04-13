@@ -54,7 +54,7 @@ const INITIAL_CONTENT = [
       { text: "Bold text.", bold: true, code: true },
       { text: "Italic text.", italic: true },
       { text: "Bold and underlined text.", bold: true, underline: true },
-      { text: "support pwa", code: true },
+      { text: "support pwa?", code: true },
     ],
   },
 ];

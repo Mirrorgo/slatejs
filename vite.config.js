@@ -25,23 +25,23 @@ export default defineConfig({
         // ...svgr options (https://react-svgr.com/docs/options/)
       },
     }),
-    VitePWA({
-      manifest: {
-        name: slatejs,
-        short_name: slatejs,
-        icons: [
-          {
-            src: "./src/favicon.svg",
-            sizes: "192x192",
-            type: "image/svg",
-          },
-          {
-            src: "./src/favicon.svg",
-            sizes: "512x512",
-            type: "image/svg",
-          },
-        ],
-      },
-    }),
+    // VitePWA({
+    //   manifest: {
+    //     name: "slatejs",
+    //     short_name: "slatejs",
+    //     icons: [
+    //       {
+    //         src: "./src/favicon.svg",
+    //         sizes: "192x192",
+    //         type: "image/svg",
+    //       },
+    //       {
+    //         src: "./src/favicon.svg",
+    //         sizes: "512x512",
+    //         type: "image/svg",
+    //       },
+    //     ],
+    //   },
+    // }),
   ],
 });
