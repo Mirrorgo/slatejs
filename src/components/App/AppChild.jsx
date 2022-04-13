@@ -60,7 +60,7 @@ const Toolbar = memo(({ editor }) => {
         test
       </button>
       <Github link="https://github.com/Mirrorgo/slatejs"></Github>
-      <Yuque link=""></Yuque>
+      <Yuque link="https://www.yuque.com/lalala-wm82o/qvhwgq/qpibaz"></Yuque>
     </StyleToolBar>
   );
 });
