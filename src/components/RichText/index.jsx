@@ -1,13 +1,13 @@
-export default App;
+export default RichText;
 import { memo, useCallback, useMemo, useState } from "react";
 import { createEditor, Editor } from "slate";
 import { withHistory } from "slate-history";
 import { Editable, Slate, withReact } from "slate-react";
-import { INITIAL_CONTENT } from "./App.constants";
-import { withShortcuts } from "./App.helper";
-import { Toolbar } from "./AppChild";
+import { INITIAL_CONTENT } from "./RickText.constants";
+import { withShortcuts } from "./RichText.plugin";
+import { Toolbar } from "./components/ToolBar";
 import useEditorConfig from "./hooks/useEditorConfig.hook";
-function App() {
+function RichText() {
   const editor = useMemo(
     () => withShortcuts(withHistory(withReact(createEditor()))),
     []
@@ -30,4 +30,3 @@ function App() {
     </>
   );
 }
-// pwa

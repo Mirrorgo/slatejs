@@ -1,9 +1,12 @@
 import { memo, useState } from "react";
 import { useSelected } from "slate-react";
 import styled from "styled-components";
-import { DROPDOWN_DATA, leafType, STYLE_BUTTON } from "./App.constants";
-import { CustomEditor } from "./App.helper";
-export { CodeElement, DefaultElement, Toolbar };
+import {
+  DROPDOWN_DATA,
+  leafType,
+  STYLE_BUTTON,
+} from "../../RickText.constants";
+import { CustomEditor } from "../../RichText.helper";
 import { ReactComponent as GithubIcon } from "/src/svg/github.svg";
 import { ReactComponent as YuqueIcon } from "/src/svg/yuque.svg";
 /*  */
@@ -63,17 +66,6 @@ const Toolbar = memo(({ editor }) => {
     </StyleToolBar>
   );
 });
-const CodeElement = (props) => {
-  return (
-    <pre {...props.attributes}>
-      <code>{props.children}</code>
-    </pre>
-  );
-};
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>;
-};
-
 //TODO: 一个自己的dropDown
 const DropdownList = (props) => {
   const { data, onChange } = props;
@@ -243,3 +235,5 @@ const A = styled.a`
   outline: none; /* 去除旧版浏览器的点击后的外虚线框 */
   color: inherit; /* 去除默认的颜色和点击后变化的颜色 */
 `;
+
+export { Toolbar };

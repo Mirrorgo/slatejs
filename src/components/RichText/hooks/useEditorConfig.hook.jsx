@@ -1,9 +1,8 @@
 import { useCallback } from "react";
 import styled from "styled-components";
-import { elementType, leafType } from "../App.constants";
-import { CodeElement } from "../AppChild";
+import { elementType, leafType } from "../RickText.constants";
 import isHotkey from "is-hotkey";
-import { CustomEditor } from "../App.helper";
+import { CustomEditor } from "../RichText.helper";
 export default function useEditorConfig(editor) {
   const onKeyDown = useCallback(
     //NOTE:这个每次修改后,需要重写刷新才能更新事件,hmr无效
@@ -26,6 +25,10 @@ export default function useEditorConfig(editor) {
         return;
       } */
       if (!e.ctrlKey) {
+        return;
+      }
+      //NOTE:保留按键
+      if (new Set(["a", "c", "v", "z", "ArrowLeft", "ArrowRight"]).has(e.key)) {
         return;
       }
       // 只有下面的写法能够prevent浏览器的ctrl+e
@@ -51,20 +54,8 @@ export default function useEditorConfig(editor) {
           CustomEditor.toggleQuoteBlock(editor);
           break;
         }
-        /* NOTE:保留快捷键 */
-        case "a": {
-          break;
-        }
-        case "c": {
-          break;
-        }
-        case "v": {
-          break;
-        }
-        case "z": {
-          break;
-        }
         default:
+          console.log("key:", e.key);
           e.preventDefault(); //清除所有第三方ctrl的快捷键
       }
     },
@@ -83,7 +74,7 @@ const renderElement = (props) => {
     case elementType["code-block"]:
       return <CodeElement {...props} />;
     case elementType["quote-block"]:
-      return <blockquote {...attributes}>{children}</blockquote>;
+      return <Blockquote {...attributes}>{children}</Blockquote>;
     case elementType["bulleted-list"]:
       return <ul {...attributes}>{children}</ul>;
     case elementType["h1"]:
@@ -94,7 +85,7 @@ const renderElement = (props) => {
       return <h3 {...attributes}>{children}</h3>;
     case elementType["h4"]:
       return <h4 {...attributes}>{children}</h4>;
-    case elementType["h5"]:
+    case elementType["h5"]: //TODO: 目前从五级开始就太小了,需要整体修改每级标题的字号
       return <h5 {...attributes}>{children}</h5>;
     case elementType["h6"]:
       return <h6 {...attributes}>{children}</h6>;
@@ -127,8 +118,22 @@ function renderLeaf(props) {
   return <span {...attributes}>{el}</span>;
 }
 
+const CodeElement = (props) => {
+  return (
+    <pre {...props.attributes}>
+      <code>{props.children}</code>
+    </pre>
+  );
+};
 const Bold = styled.span`
   font-weight: bold;
+`;
+const Blockquote = styled.blockquote`
+  margin-left: 5px;
+  margin-right: 5px;
+  padding-left: 10px;
+  border-left: 2px solid #dedede;
+  color: #666666;
 `;
 
 /* ------无效代码------ */
