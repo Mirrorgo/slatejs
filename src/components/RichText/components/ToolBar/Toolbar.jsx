@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
-import { useSelected } from "slate-react";
+import { memo, useEffect, useMemo, useState } from "react";
+import { useSelected, useSlate, useSlateStatic } from "slate-react";
 import styled from "styled-components";
 import {
   DROPDOWN_DATA,
@@ -10,6 +10,11 @@ import { CustomEditor } from "../../RichText.helper";
 import { ReactComponent as GithubIcon } from "/src/svg/github.svg";
 import { ReactComponent as YuqueIcon } from "/src/svg/yuque.svg";
 import { Editor } from "slate";
+import { useDebounceFn } from "ahooks";
+import { useDebounce } from "ahooks";
+import { useThrottle } from "ahooks";
+import { useMouse } from "ahooks";
+import equal from "fast-deep-equal";
 /*  */
 const cssVariables = {
   blue: "#037bff",
@@ -28,19 +33,7 @@ const Toolbar = memo(({ editor }) => {
         //一堆leaf的按钮
         return (
           <div key={style}>
-            <button
-              //TODO:active的时候有深色的背景
-              // className={`${
-              //   CustomEditor.isStyleActive(editor, style) ? "active" : ""
-              // }`}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                CustomEditor.toggleStyle(editor, style); //cur类似leafType.bold
-              }}
-            >
-              {style}
-              <div className="tooltip">ctrl+i</div>
-            </button>
+            <MarkButton style={style} />
           </div>
         );
       })}
@@ -58,8 +51,7 @@ const Toolbar = memo(({ editor }) => {
           // console.log(selection);
           // console.log(editor.selection);
           console.log("test");
-          const marks = Editor.marks(editor);
-          console.log(marks);
+          console.log(data);
         }}
       >
         test
@@ -69,6 +61,26 @@ const Toolbar = memo(({ editor }) => {
     </StyleToolBar>
   );
 });
+function MarkButton({ style }) {
+  //FIXME:全程变化渲染次数太多了,得优化一下
+  const editor = useSlateStatic();
+  //TODO:支持mark button的样式变化
+  //防抖+改变selection才用
+  return (
+    <button //TODO:active的时候有深色的背景
+      className={`${CustomEditor.isMarkActive(editor, style) ? "active" : ""}`}
+      onMouseDown={(e) => {
+        e.preventDefault();
+        CustomEditor.toggleMark(editor, style); //cur类似leafType.bold
+      }}
+    >
+      {style}
+      <div className="tooltip">ctrl+i</div>
+      {console.log("render button")}
+    </button>
+  );
+}
+
 //TODO: 一个自己的dropDown
 const DropdownList = (props) => {
   const { data, onChange } = props;

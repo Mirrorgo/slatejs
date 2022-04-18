@@ -8,15 +8,15 @@ export default function useEditorConfig(editor) {
     //NOTE:这个每次修改后,需要重写刷新才能更新事件,hmr无效
     (e) => {
       if (isHotkey("mod+b", e)) {
-        CustomEditor.toggleStyle(editor, leafType.bold);
+        CustomEditor.toggleMark(editor, leafType.bold);
         return;
       }
       if (isHotkey("mod+i", e)) {
-        CustomEditor.toggleStyle(editor, leafType.italic);
+        CustomEditor.toggleMark(editor, leafType.italic);
         return;
       }
       if (isHotkey("mod+u", e)) {
-        CustomEditor.toggleStyle(editor, leafType.underline);
+        CustomEditor.toggleMark(editor, leafType.underline);
         return;
       }
       // NOTE:isHotkey对于👇无法prevent浏览器的ctrl+e
@@ -35,7 +35,7 @@ export default function useEditorConfig(editor) {
       switch (e.key) {
         case "e": {
           e.preventDefault();
-          CustomEditor.toggleStyle(editor, leafType.code);
+          CustomEditor.toggleMark(editor, leafType.code);
           break;
         }
         case "`": {

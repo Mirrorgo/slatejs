@@ -26,6 +26,13 @@ function RichText() {
           onKeyDown={onKeyDown}
         />
       </Slate>
+      <button
+        onClick={() => {
+          console.log(value);
+        }}
+      >
+        check state
+      </button>
     </>
   );
 }

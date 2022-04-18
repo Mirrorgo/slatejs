@@ -4,21 +4,18 @@ import { elementType } from "./RickText.constants";
 const CustomEditor = {
   /* -----Leaf------ */
   //STAR 处理所有leaf
-  isStyleActive(editor, style) {
-    const [match] = Editor.nodes(editor, {
-      match: (n) => n[style] === true,
-      universal: true, // 这里的true or false是匹配方式的区别
-    });
-    return !!match;
+  isMarkActive(editor, format) {
+    console.log("isMarkActive");
+    const marks = Editor.marks(editor);
+    return marks ? marks[format] === true : false;
   },
-  toggleStyle(editor, style) {
-    console.log(style, "style");
-    const isActive = CustomEditor.isStyleActive(editor, style);
-    Transforms.setNodes(
-      editor,
-      { [style]: isActive ? false : true }, //注意这里的方括号
-      { match: (n) => Text.isText(n), split: true }
-    );
+  toggleMark(editor, format) {
+    const isActive = CustomEditor.isMarkActive(editor, format);
+    if (isActive) {
+      Editor.removeMark(editor, format);
+    } else {
+      Editor.addMark(editor, format, true);
+    }
   },
   /* -----block----- */
   isCodeBlockActive(editor) {

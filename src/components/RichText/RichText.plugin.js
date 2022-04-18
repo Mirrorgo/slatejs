@@ -6,6 +6,9 @@ const withShortcuts = (editor) => {
   //NOTE:why是text而不是character? 因为有一次输入了多个内容的情况,比如中文输入法的输入和粘贴进来的大段文本
   editor.insertText = (text) => {
     //TODO：引用类型的样式,有时连续有时不连续
+    //解决方案:引用类型左侧的竖线高度100%, 普通的段落之间增加padding
+    //对于quote类型,拦截回车操作,第一次回车新建一行而不是段,第二次回车与退格效果相同, 都是清除当前样式
+    //仅从0开始构建的引用样式另起一段
     console.log("text:", text);
     const { selection } = editor;
     if (
