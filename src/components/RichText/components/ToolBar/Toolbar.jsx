@@ -10,10 +10,7 @@ import { CustomEditor } from "../../RichText.helper";
 import { ReactComponent as GithubIcon } from "/src/svg/github.svg";
 import { ReactComponent as YuqueIcon } from "/src/svg/yuque.svg";
 import { Editor } from "slate";
-import { useDebounceFn } from "ahooks";
-import { useDebounce } from "ahooks";
-import { useThrottle } from "ahooks";
-import { useMouse } from "ahooks";
+import { useDebounceFn, useThrottle, useDebounce, useMouse } from "ahooks";
 import equal from "fast-deep-equal";
 /*  */
 const cssVariables = {
